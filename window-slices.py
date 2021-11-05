@@ -167,3 +167,8 @@ if __name__ == "__main__":
     y_time_stock = [item for sublist in y_time_stock for item in sublist]
 
     print(x_stock)
+    
+    f= open("/pfs/out/guru99.txt","w+")
+    for i in range(10):
+     f.write("This is line %d\r\n" % (i+1))
+    f.close()
