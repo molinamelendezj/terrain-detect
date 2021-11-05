@@ -18,5 +18,8 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 
 RUN python3 --version && pip3 --version && sudo pip3 install matplotlib
 
+ADD requirements.txt .
+RUN pip3 install -r requirements.txt
+
 # Add our own code.
 ADD window-slices.py /window-slices.py
