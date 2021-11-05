@@ -16,18 +16,6 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     && apt-get clean \
     && rm -rf /var/lib/apt
 
-RUN cd \
-	&& wget https://github.com/Itseez/opencv/archive/3.4.5.zip \
-	&& unzip 3.4.5.zip \
-	&& cd opencv-3.4.5 \
-	&& mkdir build \
-	&& cd build \
-	&& cmake .. \
-	&& make -j \
-	&& make install \
-	&& cd \
-	&& rm 3.4.5.zip \
-    && rm -rf opencv-3.4.5
 RUN python3 --version && pip3 --version && sudo pip3 install matplotlib
 
 # Add our own code.
