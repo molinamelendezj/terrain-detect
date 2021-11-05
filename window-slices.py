@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
     print(x_stock)
     
-    f= open("/pfs/out/guru99.txt","w+")
+    f= open("/pfs/out/pre-process-stage/guru99.txt","w+")
     for i in range(10):
      f.write("This is line %d\r\n" % (i+1))
     f.close()
