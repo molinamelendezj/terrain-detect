@@ -21,6 +21,6 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag molinamelendezj/window-slices:1.0.5
+      run: docker build . --file Dockerfile --tag molinamelendezj/window-slices:1.0.6
     - name: Push the Docker image
-      run: docker push molinamelendezj/window-slices:1.0.5
+      run: docker push molinamelendezj/window-slices:1.0.6
