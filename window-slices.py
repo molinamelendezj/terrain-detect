@@ -18,7 +18,6 @@ from mlxtend.plotting import plot_confusion_matrix
 
 # Plotting
 sns.set()
-%matplotlib inline
 
 # First number = subject
 # Second number = run

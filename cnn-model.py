@@ -18,7 +18,6 @@ from mlxtend.plotting import plot_confusion_matrix
 
 # Plotting
 sns.set()
-%matplotlib inline
 
 x_train = np.loadtxt("/pfs/xtrain/xtrain.txt").reshape(312454, 160, 6)
 y_train = np.loadtxt("/pfs/ytrain/ytrain.txt").reshape(312454, 1)
