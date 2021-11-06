@@ -162,29 +162,29 @@ print(len(y_val))
 print(len(x_test))
 
 
-a_file = open("/pfs/out/xtrain/xtrain.txt", "w")
+a_file = open("/pfs/out/xtrain.txt", "w")
 for row in x_train:
     np.savetxt(a_file, row)
 
 a_file.close()
 
-a_file = open("/pfs/out/ytrain/ytrain.txt", "w")
+a_file = open("/pfs/out/ytrain.txt", "w")
 for row in y_train:
     np.savetxt(a_file, row)
 
 a_file.close()
 
-a_file = open("/pfs/out/xval/xval.txt", "w")
+a_file = open("/pfs/out/xval.txt", "w")
 for row in x_val:
     np.savetxt(a_file, row)
 
 a_file.close()
 
 
-y_val.to_csv('/pfs/out/yval/yval.csv') 
+y_val.to_csv('/pfs/out/yval.csv') 
 
 
-a_file = open("/pfs/out/xtest/xtest.txt", "w")
+a_file = open("/pfs/out/xtest.txt", "w")
 for row in x_test:
     np.savetxt(a_file, row)
 
