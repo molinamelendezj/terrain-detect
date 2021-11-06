@@ -20,13 +20,13 @@ from glob import glob
 # Second number = run
 
 # Stockpile the data
-with open("/pfs/iot-readings/TrainingData/subject_001_01__x.csv") as f:
+with open("/pfs/iot-readings/data/TrainingData/subject_001_01__x.csv") as f:
     lines = f.read()
     first = lines.split('\n', 1)[0]
 
 print(first)
 
-with open("/pfs/iot-readings/TestData/subject_010_01__x.csv") as f:
+with open("/pfs/iot-readings/data/TestData/subject_010_01__x.csv") as f:
     lines = f.read()
     first = lines.split('\n', 1)[0]
     
@@ -34,14 +34,14 @@ print(first)
 
 x_stock, x_time_stock, y_stock, y_time_stock = [], [], [], []
 for subject in range(1,10):
-    x_stock.append(sorted(glob(f'/pfs/iot-readings/TrainingData/subject_00{subject}_0*__x.csv')))
-    x_time_stock.append(sorted(glob(f'/pfs/iot-readings/TrainingData/subject_00{subject}_0*__x_time.csv')))
-    y_stock.append(sorted(glob(f'/pfs/iot-readings/TrainingData/subject_00{subject}_0*__y.csv')))
-    y_time_stock.append(sorted(glob(f'/pfs/iot-readings/TrainingData/subject_00{subject}_0*__y_time.csv')))
+    x_stock.append(sorted(glob(f'/pfs/iot-readings/data/TrainingData/subject_00{subject}_0*__x.csv')))
+    x_time_stock.append(sorted(glob(f'/pfs/iot-readings/data/TrainingData/subject_00{subject}_0*__x_time.csv')))
+    y_stock.append(sorted(glob(f'/pfs/iot-readings/data/TrainingData/subject_00{subject}_0*__y.csv')))
+    y_time_stock.append(sorted(glob(f'/pfs/iot-readings/data/TrainingData/subject_00{subject}_0*__y_time.csv')))
 for subject in range(3):
-    x_stock.append(sorted(glob(f'/pfs/iot-readings/TestData/subject_01{subject}_0*__x.csv')))
-    x_time_stock.append(sorted(glob(f'/pfs/iot-readings/TestData/subject_01{subject}_0*__x_time.csv')))
-    y_time_stock.append(sorted(glob(f'/pfs/iot-readings/TestData/subject_01{subject}_0*__y_time.csv')))
+    x_stock.append(sorted(glob(f'/pfs/iot-readings/data/TestData/subject_01{subject}_0*__x.csv')))
+    x_time_stock.append(sorted(glob(f'/pfs/iot-readings/data/TestData/subject_01{subject}_0*__x_time.csv')))
+    y_time_stock.append(sorted(glob(f'/pfs/iot-readings/data/TestData/subject_01{subject}_0*__y_time.csv')))
 y_stock.pop()    # delete last row (it's empty)
 
 # Flatten the stockpiles (2D to 1D)
