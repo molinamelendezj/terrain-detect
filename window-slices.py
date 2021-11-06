@@ -20,11 +20,17 @@ from glob import glob
 # Second number = run
 
 # Stockpile the data
-with open('/pfs/iot-readings/TrainingData/subject_001_01__x.csv', 'r') as f:
-    print(f.read())
+with open("/pfs/iot-readings/TrainingData/subject_001_01__x.csv") as f:
+    lines = f.read()
+    first = lines.split('\n', 1)[0]
+
+print(first)
+
+with open("/pfs/iot-readings/TestData/subject_010_01__x.csv") as f:
+    lines = f.read()
+    first = lines.split('\n', 1)[0]
     
-with open('/pfs/iot-readings/TestData/subject_010_01__x.csv', 'r') as f:
-    print(f.read())
+print(first)
 
 x_stock, x_time_stock, y_stock, y_time_stock = [], [], [], []
 for subject in range(1,10):
