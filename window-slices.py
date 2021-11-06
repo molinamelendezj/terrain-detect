@@ -1,20 +1,24 @@
 
 import numpy as np
 import pandas as pd
-#import matplotlib.pyplot as plt
-#import seaborn as sns
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from glob import glob
-#from sklearn.model_selection import train_test_split, GridSearchCV
-#from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
-#from sklearn.preprocessing import StandardScaler
-#from keras.utils import to_categorical
-#from keras.models import Sequential
-#from keras.layers import Dense, Dropout, Flatten
-#from keras.layers.convolutional import Conv1D, MaxPooling1D
-#from keras.wrappers.scikit_learn import KerasClassifier
-#from keras.optimizers import Adam
-#from mlxtend.plotting import plot_confusion_matrix
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+from sklearn.preprocessing import StandardScaler
+from tensorflow.keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers.convolutional import Conv1D, MaxPooling1D
+from keras.wrappers.scikit_learn import KerasClassifier
+from tensorflow.keras.optimizers import Adam
+from mlxtend.plotting import plot_confusion_matrix
+
+# Plotting
+sns.set()
+%matplotlib inline
 
 # First number = subject
 # Second number = run
@@ -157,3 +161,35 @@ print(len(x_val))
 print(len(y_val))
 
 print(len(x_test))
+
+
+a_file = open("/pfs/out/xtrain/xtrain.txt", "w")
+for row in x_train:
+    np.savetxt(a_file, row)
+
+a_file.close()
+
+a_file = open("/pfs/out/ytrain/ytrain.txt", "w")
+for row in y_train:
+    np.savetxt(a_file, row)
+
+a_file.close()
+
+a_file = open("/pfs/out/xval/xval.txt", "w")
+for row in x_val:
+    np.savetxt(a_file, row)
+
+a_file.close()
+
+
+y_val.to_csv('/pfs/out/yval/yval.csv') 
+
+
+a_file = open("/pfs/out/xtest/xtest.txt", "w")
+for row in x_test:
+    np.savetxt(a_file, row)
+
+a_file.close()
+
+
+
