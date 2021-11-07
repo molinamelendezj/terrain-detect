@@ -19,11 +19,11 @@ from mlxtend.plotting import plot_confusion_matrix
 # Plotting
 sns.set()
 
-x_train = np.loadtxt("/pfs/pre-process-stage/xtrain.txt").reshape(312454, 160, 6)
-y_train = np.loadtxt("/pfs/pre-process-stage/ytrain.txt").reshape(312454, 1)
-x_val = np.loadtxt("/pfs/pre-process-stage/xval.txt").reshape(9820, 160, 6)
-y_val = pd.read_csv("/pfs/pre-process-stage/yval.csv")
-x_test = np.loadtxt("/pfs/pre-process-stage/xtest.txt").reshape(48417, 160, 6)
+x_train = np.loadtxt('/pfs/pre-process-stage/xtrain.txt').reshape(312454, 160, 6)
+y_train = np.loadtxt('/pfs/pre-process-stage/ytrain.txt').reshape(312454, 1)
+x_val = np.loadtxt('/pfs/pre-process-stage/xval.txt').reshape(9820, 160, 6)
+y_val = pd.read_csv('/pfs/pre-process-stage/yval.csv')
+x_test = np.loadtxt('/pfs/pre-process-stage/xtest.txt').reshape(48417, 160, 6)
 
 
 # Reshape data for standardizing
