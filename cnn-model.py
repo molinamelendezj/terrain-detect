@@ -104,7 +104,7 @@ plot_model(model, show_shapes=True, show_layer_names=True)
 
 history = model.fit(x_train_stand, y_train_1H, epochs=10, batch_size=128, validation_data=(x_val_stand, y_val_1H))
 
-plot_history(history)
+#plot_history(history)
 
 
 # Confusion Matrix
@@ -114,6 +114,6 @@ y_true = y_val
 
 CM = confusion_matrix(y_true, pred)
 fig, ax = plot_confusion_matrix(conf_mat=CM ,  figsize=(10, 5))
-plt.show()
+#plt.show()
 
 print(classification_report(y_true, pred))
