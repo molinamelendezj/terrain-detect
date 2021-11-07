@@ -24,3 +24,4 @@ RUN pip3 install -r requirements.txt
 # Add our own code.
 ADD window-slices.py /window-slices.py
 ADD cnn-model.py /cnn-model.py
+ADD debug.py /debug.py
