@@ -2,7 +2,7 @@ name: circle-ci-release-trigger
 
 on:
   release:
-    types: [created]
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
