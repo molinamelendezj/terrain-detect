@@ -50,7 +50,7 @@ workflows:
               only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
           requires:
             - build
-      - release:
+      - sign-off:
           filters:
             branches:
               ignore: /.*/
@@ -59,3 +59,11 @@ workflows:
           type: approval
           requires:
             - test
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
