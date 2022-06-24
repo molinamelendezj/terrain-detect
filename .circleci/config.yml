@@ -32,5 +32,9 @@ workflows:
   release:
     jobs:
       - build
-      - test
-      - release
+      - test:
+          requires:
+            - build
+      - release:
+          requires:
+            - test
