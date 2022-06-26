@@ -28,7 +28,7 @@ jobs:
       - gh/setup
       - run:
           name: create release
-          command: gh release create ${CIRCLE_TAG} --generate-note --title ${CIRCLE_TAG} ./test/*.zip
+          command: gh release create ${CIRCLE_TAG} -t ${CIRCLE_TAG} ./test/*.zip --generate-note 
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
