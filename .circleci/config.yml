@@ -8,10 +8,13 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
+      - setup_remote_docker:
+          version: 20.10.11
       - checkout
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+      - run: docker buildx build .
   test:
     docker:
       - image: cimg/base:stable
