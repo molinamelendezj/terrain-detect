@@ -4,7 +4,7 @@ orbs:
   gh: circleci/github-cli@2.1
 
 jobs:
-  build:
+  build-docker-images:
     docker:
       - image: cimg/base:stable
     steps:
@@ -15,6 +15,22 @@ jobs:
           name: "Say hello"
           command: "echo Hello, World!"
       - run: docker buildx build .
+  build-pachctl-bin:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  build-helm-chart:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
   test:
     docker:
       - image: cimg/base:stable
@@ -23,7 +39,7 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
-  release:
+  release-github:
     docker:
       - image: cimg/base:stable
     steps:
@@ -36,11 +52,55 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+  release-docker-hub:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-redhat-marketplace:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-hombrew-tap:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-artifact-hub:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
 
 workflows:
   release:
     jobs:
-      - build:
+      - build-docker-images:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+      - build-pachctl-bin:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+      - build-helm-chart:
           filters:
             branches:
               ignore: /.*/
@@ -53,7 +113,9 @@ workflows:
             tags:
               only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
           requires:
-            - build
+            - build-docker-images
+            - build-pachctl-bin
+            - build-helm-chart
       - sign-off:
           filters:
             branches:
@@ -63,7 +125,39 @@ workflows:
           type: approval
           requires:
             - test
-      - release:
+      - release-docker-hub:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-redhat-marketplace:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-github:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-hombrew-tap:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-artifact-hub:
           filters:
             branches:
               ignore: /.*/
