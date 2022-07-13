@@ -48,7 +48,15 @@ jobs:
           version: 2.13.0
       - run:
           name: create draft release
-          command: gh release create ${CIRCLE_TAG} -t ${CIRCLE_TAG} ./test/*.zip --generate-notes --draft --prerelease
+          command: |
+          if [[ $CIRCLE_TAG == *"-"* ]];
+          then
+              echo "git tag has - assuming prerelease."
+              gh release create --draft ${CIRCLE_TAG} -t ${CIRCLE_TAG} ./dist-pach/pachctl/pachctl_${CIRCLE_TAG:1}* --generate-notes --prerelease
+          else
+              echo "regular release."
+              gh release create --draft ${CIRCLE_TAG} -t ${CIRCLE_TAG} ./dist-pach/pachctl/pachctl_${CIRCLE_TAG:1}* --generate-notes
+          fi
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
