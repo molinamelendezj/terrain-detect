@@ -124,7 +124,7 @@ jobs:
           command: "echo Hello, World!"
   create-tag:
     docker:
-      - image: gcr.io/public-builds/chart-releaser:v1.2.1
+      - image: cimg/base:stable
     steps:
       - checkout
       - add_ssh_keys:
