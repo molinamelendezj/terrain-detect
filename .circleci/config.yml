@@ -138,7 +138,7 @@ jobs:
       - run:
           name: create tag
           command: |
-            git tag -a v2.2.7 
+            git tag -a v2.2.7 -m "my version 2.2.7"
             git push origin v2.2.7
   say-hello:
     docker:
