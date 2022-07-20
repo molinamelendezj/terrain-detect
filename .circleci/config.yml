@@ -143,7 +143,7 @@ workflows:
   say-hello:
     when:
       and:
-        not: << pipeline.parameters.RELEASE_CORE >>
+        - not: << pipeline.parameters.RELEASE_CORE >>
     jobs:
       - say-hello
   create-tag:
