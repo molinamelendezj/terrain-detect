@@ -11,6 +11,9 @@ parameters:
   REDHAT_IMAGE_VERSION:
     type: string
     default: "v2.2.6"
+  RELEASE_CORE:
+    type: boolean
+    default: false
 
 jobs:
   build-docker-images:
@@ -119,8 +122,20 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
-
+  create-tag:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: create tag
+          command: |
+            git tag -a v2.2.7 
+            git push origin v2.2.7
 workflows:
+  create-tag:
+    when: << pipeline.parameters.RELEASE_CORE >>
+    jobs:
+      - create-tag
   ad-hoc-release:
     jobs:
       - build-docker-images:
