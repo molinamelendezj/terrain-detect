@@ -131,7 +131,21 @@ jobs:
           command: |
             git tag -a v2.2.7 
             git push origin v2.2.7
+  say-hello:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: say hello
+          command: |
+            echo "hello"
 workflows:
+  say-hello:
+    when:
+      and:
+        not: << pipeline.parameters.RELEASE_CORE >>
+    jobs:
+      - say-hello
   create-tag:
     when: << pipeline.parameters.RELEASE_CORE >>
     jobs:
