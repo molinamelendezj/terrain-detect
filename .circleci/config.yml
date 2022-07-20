@@ -3,6 +3,15 @@ version: 2.1
 orbs:
   gh: circleci/github-cli@2.1
 
+parameters:
+  # Update these along with other version bumps for remaining 2.2.x releases.
+  CHART_VERSION:
+    type: string
+    default: "2.2.6"
+  REDHAT_IMAGE_VERSION:
+    type: string
+    default: "v2.2.6"
+
 jobs:
   build-docker-images:
     docker:
@@ -102,6 +111,11 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - run:
+          name: "chart release"
+          command: |
+            echo << pipeline.parameters.CHART_VERSION >> 
+            echo << pipeline.parameters.REDHAT_IMAGE_VERSION >> 
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
