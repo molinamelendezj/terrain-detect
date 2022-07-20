@@ -121,6 +121,14 @@ jobs:
           command: "echo Hello, World!"
 
 workflows:
+  ad-hoc-release:
+    jobs:
+      - build-docker-images:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
   release:
     jobs:
       - build-docker-images:
