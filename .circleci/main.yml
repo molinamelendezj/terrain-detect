@@ -11,9 +11,6 @@ parameters:
   REDHAT_IMAGE_VERSION:
     type: string
     default: "v2.2.6"
-  runloadtests:
-    type: boolean
-    default: false
 
 
 jobs:
@@ -219,5 +216,8 @@ workflows:
     jobs:
       - build-docker-images
   regular-ci:
+    when: 
+      and:
+        - not: << pipeline.parameters.runloadtests >>
     jobs:
       - build-docker-images
