@@ -11,6 +11,9 @@ parameters:
   REDHAT_IMAGE_VERSION:
     type: string
     default: "v2.2.6"
+  runloadtests:
+    type: boolean
+    default: false
 
 
 jobs:
