@@ -11,9 +11,9 @@ parameters:
   REDHAT_IMAGE_VERSION:
     type: string
     default: "v2.2.6"
-  run-load-tests:
-    type: boolean
-    default: false
+  requested-workflow:
+    type: string
+    default: ""
 
 
 jobs:
@@ -215,7 +215,9 @@ workflows:
           requires:
             - sign-off
   nightly-simulation:
-    when: << pipeline.parameters.run-load-tests >>
+    when:
+      and:
+        - equal: [ nightly-simulation, << pipeline.parameters.machine_image >> ]
     jobs:
       - build-docker-images
   regular-ci:
