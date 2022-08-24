@@ -11,6 +11,10 @@ parameters:
   REDHAT_IMAGE_VERSION:
     type: string
     default: "v2.2.6"
+  run-load-tests:
+    type: boolean
+    default: false
+
 
 jobs:
   build-docker-images:
@@ -210,3 +214,10 @@ workflows:
               only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
           requires:
             - sign-off
+  nightly-simulation:
+    when: << pipeline.parameters.run-load-tests >>
+    jobs:
+      - build-docker-images
+  regular-ci:
+    jobs:
+      - build-docker-images
