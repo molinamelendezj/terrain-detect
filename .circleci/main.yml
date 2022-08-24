@@ -1,0 +1,212 @@
+version: 2.1
+
+orbs:
+  gh: circleci/github-cli@2.1
+
+parameters:
+  # Update these along with other version bumps for remaining 2.2.x releases.
+  CHART_VERSION:
+    type: string
+    default: "2.2.6"
+  REDHAT_IMAGE_VERSION:
+    type: string
+    default: "v2.2.6"
+
+jobs:
+  build-docker-images:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - setup_remote_docker:
+          version: 20.10.11
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+      # - run: docker buildx build .
+  build-pachctl-bin:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  build-helm-chart:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  test:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  draft-release-github:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - gh/setup:
+          version: 2.13.0
+      - run:
+          name: create draft release
+          command: |
+            if [[ $CIRCLE_TAG == *"-"* ]];
+            then
+                echo "git tag has - assuming prerelease."
+                gh release create --draft ${CIRCLE_TAG} -t ${CIRCLE_TAG} ./test/*.zip --generate-notes --prerelease
+            else
+                echo "regular release."
+                gh release create --draft ${CIRCLE_TAG} -t ${CIRCLE_TAG} ./test/*.zip --generate-notes
+            fi
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-github:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - gh/setup:
+          version: 2.13.0
+      - run:
+          name: publish release
+          command: gh release edit ${CIRCLE_TAG} --draft=false
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-docker-hub:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-redhat-marketplace:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-hombrew-tap:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+  release-artifact-hub:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "chart release"
+          command: |
+            echo << pipeline.parameters.CHART_VERSION >> 
+            echo << pipeline.parameters.REDHAT_IMAGE_VERSION >> 
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+
+workflows:
+  release:
+    jobs:
+      - build-docker-images:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+      - build-pachctl-bin:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+      - build-helm-chart:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+      - test:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - build-docker-images
+            - build-pachctl-bin
+            - build-helm-chart
+      - draft-release-github:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - build-docker-images
+            - build-pachctl-bin
+            - build-helm-chart
+      - sign-off:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          type: approval
+          requires:
+            - test
+      - release-docker-hub:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-redhat-marketplace:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-github:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-hombrew-tap:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
+      - release-artifact-hub:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$/
+          requires:
+            - sign-off
