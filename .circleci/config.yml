@@ -7,6 +7,9 @@ parameters:
   runloadtests:
     type: boolean
     default: false
+  CIRCLE_TAG:
+    type: string
+    default: ""
 
 # the continuation orb is required in order to use dynamic configuration
 orbs:

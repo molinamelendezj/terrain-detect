@@ -14,6 +14,9 @@ parameters:
   runloadtests:
     type: boolean
     default: false
+  CIRCLE_TAG:
+    type: string
+    default: ""
 
 
 jobs:
@@ -26,7 +29,9 @@ jobs:
       - checkout
       - run:
           name: "Say hello"
-          command: "echo Hello, World!"
+          command: |
+            "echo Hello, World!"
+            echo ${CIRCLE_TAG}
       # - run: docker buildx build .
   build-pachctl-bin:
     docker:
