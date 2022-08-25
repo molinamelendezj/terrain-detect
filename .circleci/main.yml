@@ -30,7 +30,7 @@ jobs:
       - run:
           name: "Say hello"
           command: |
-            "echo Hello, World!"
+            echo "Hello, World!"
             echo ${CIRCLE_TAG}
       # - run: docker buildx build .
   build-pachctl-bin:
