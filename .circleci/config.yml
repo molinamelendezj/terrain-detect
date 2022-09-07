@@ -33,7 +33,8 @@ jobs:
       - continuation/continue:
           configuration_path: .circleci/main.yml # use newly generated config to continue
   create-nightly-tag:
-    executor: docker-go
+    docker:
+      - image: cimg/go:1.19
     steps:
       - checkout
       - run:
