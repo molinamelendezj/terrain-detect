@@ -173,7 +173,7 @@ workflows:
       - sign-off:
           when:
             and: # All must be true to trigger
-              - equal: [ master, << pipeline.git.branch >> ]
+              - equal: [ hello, not ]
           filters:
             branches:
               ignore: /.*/
