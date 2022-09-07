@@ -171,6 +171,9 @@ workflows:
             - build-pachctl-bin
             - build-helm-chart
       - sign-off:
+          when:
+            and: # All must be true to trigger
+              - equal: [ master, << pipeline.git.branch >> ]
           filters:
             branches:
               ignore: /.*/
