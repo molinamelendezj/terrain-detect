@@ -10,6 +10,12 @@ parameters:
   CIRCLE_TAG:
     type: string
     default: ""
+  working-pachyderm-version:
+    type: string
+    default: "v2.4.0"
+  run_nightly_tag:
+    type: boolean
+    default: false
 
 # the continuation orb is required in order to use dynamic configuration
 orbs:
@@ -26,6 +32,18 @@ jobs:
       #    command: |
       - continuation/continue:
           configuration_path: .circleci/main.yml # use newly generated config to continue
+  create-nightly-tag:
+    executor: docker-go
+    steps:
+      - checkout
+      - run:
+          name: create nightly tag
+          command: |
+            TIMESTAMP=$(date +'%Y%m%d')
+            WORKINGVERSION=<< pipeline.parameters.working-pachyderm-version >>
+            NIGHTLY=${WORKINGVERSION}-nightly.${TIMESTAMP}
+            git tag -am "nightly release tag ${NIGHTLY}" ${NIGHTLY}
+            git push origin ${NIGHTLY}
 
 # our single workflow, that triggers the setup job defined above
 workflows:
@@ -35,3 +53,7 @@ workflows:
           filters:
             tags:
               only: /.*/
+  create-nightly-tag:
+    when: << pipeline.parameters.run_nightly_tag >>
+    jobs:
+      - create-nightly-tag
